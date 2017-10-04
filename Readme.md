@@ -28,4 +28,4 @@ A [sample config file](/src/main/resources/sample-config.json) is included in th
 
 
 ## Execution
-* There is a simple main method [included](/src/main/java/Entrypoint.java)in the project, along with an AWS Lambda Handler.
+* There is a simple main method [included](/src/main/java/Entrypoint.java) in the project, along with an AWS Lambda Handler.
