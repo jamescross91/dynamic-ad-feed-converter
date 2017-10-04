@@ -1,5 +1,6 @@
 import config.Config;
 import input.InputReader;
+import output.io.FileWriter;
 import output.GoogleMapper;
 import output.feed.GoogleFeed;
 
@@ -12,7 +13,7 @@ public class Entrypoint {
     public static void main(String args[]) throws IOException {
         Config config = Config.fromFile("/Users/James/Developer/dynamic-ad-feed-converter/src/main/resources/sample-config.json");
 
-        InputReader inputReader = new InputReader("/Users/James/Developer/dynamic-ad-feed-converter/sample-data.csv");
+        InputReader inputReader = new InputReader(config.getSourceDir());
         List<Map<String, String>> data = inputReader.read();
 
         List<GoogleFeed> feedData = data.stream()
@@ -20,6 +21,6 @@ public class Entrypoint {
             .map(GoogleMapper::getOutputRecord)
             .collect(Collectors.toList());
 
-        System.out.println();
+        FileWriter.writeCSV(config.getDestDir(), feedData);
     }
 }

@@ -1,0 +1,15 @@
+{
+  "SourceDir": "/Users/James/Developer/dynamic-ad-feed-converter/sample-data.csv",
+  "DestDir": "/Users/James/Developer/dynamic-ad-feed-converter/out.csv",
+  "DestType": "GoogleFeed",
+  "SourceToDestMappings": {
+    "id": "Source ID",
+    "title": "Title",
+    "description": "Short Description",
+    "link": "Trailer Url",
+    "image_link": "Thumbnail",
+    "availability": "%STATIC:in stock",
+    "google_product_category": "Media Type",
+    "price": "%STATIC:200 USD"
+  }
+}
