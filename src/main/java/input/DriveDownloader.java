@@ -12,9 +12,11 @@ import com.google.api.services.drive.DriveScopes;
 import com.google.api.services.drive.model.File;
 import com.google.api.services.drive.model.FileList;
 
-import java.io.*;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.OutputStream;
 import java.util.List;
-import java.util.stream.Collectors;
 
 public class DriveDownloader {
 
@@ -39,10 +41,9 @@ public class DriveDownloader {
     }
 
     private Credential authorize(String credentialsPath) throws IOException {
-        GoogleCredential credential = GoogleCredential
+        return GoogleCredential
             .fromStream(new FileInputStream(credentialsPath))
             .createScoped(DriveScopes.all());
-        return credential;
     }
 
     private Drive getDriveService(String credentialsPath) throws IOException {
