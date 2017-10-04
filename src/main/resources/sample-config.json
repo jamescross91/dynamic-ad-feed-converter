@@ -1,5 +1,5 @@
 {
-  "SourceDir": "/Users/James/Developer/dynamic-ad-feed-converter/sample-data.csv",
+  "SourceDir": "0B31u0-bAMcrhM2pYQzZPZXloN28",
   "DestDir": "/Users/James/Developer/dynamic-ad-feed-converter/out.csv",
   "DestType": "GoogleFeed",
   "SourceToDestMappings": {

@@ -25,3 +25,4 @@ sample-data.csv
 
 javatest.iml
 target/
+src/main/resources/client_secret.json

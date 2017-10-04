@@ -24,7 +24,7 @@ public class InputReader {
         Iterable<CSVRecord> records = CSVFormat.EXCEL.withHeader().withIgnoreSurroundingSpaces().parse(in);
 
         return StreamSupport.stream(records.spliterator(), false)
-            .map(CSVRecord::toMap)
+            .map(record -> record.toMap())
             .collect(Collectors.toList());
     }
 

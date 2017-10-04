@@ -1,8 +1,9 @@
 import config.Config;
+import input.DriveDownloader;
 import input.InputReader;
-import output.io.FileWriter;
 import output.GoogleMapper;
 import output.feed.GoogleFeed;
+import output.io.FileWriter;
 
 import java.io.IOException;
 import java.util.List;
@@ -13,7 +14,10 @@ public class Entrypoint {
     public static void main(String args[]) throws IOException {
         Config config = Config.fromFile("/Users/James/Developer/dynamic-ad-feed-converter/src/main/resources/sample-config.json");
 
-        InputReader inputReader = new InputReader(config.getSourceDir());
+        String path = new DriveDownloader().downloadLatest(
+            "/Users/James/Developer/dynamic-ad-feed-converter/src/main/resources/client_secret.json", config.getSourceDir());
+
+        InputReader inputReader = new InputReader(path);
         List<Map<String, String>> data = inputReader.read();
 
         List<GoogleFeed> feedData = data.stream()
