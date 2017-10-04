@@ -2,6 +2,7 @@ package output.feed;
 
 import lombok.Data;
 
+import java.util.Currency;
 import java.util.Map;
 
 @Data
@@ -13,19 +14,6 @@ public class GoogleFeed extends AdFeed {
     private String availability;
     private String google_product_category;
     private String price;
-
-    public GoogleFeed(
-        String id,
-        String title,
-        String description,
-        String link,
-        String image_link,
-        String availability,
-        String price,
-        String google_product_category) {
-
-        validateAndAssign(id, title, description, link, image_link, availability, price, google_product_category);
-    }
 
     public GoogleFeed(Map<String, String> data) {
         String id = data.get("id");
@@ -66,21 +54,21 @@ public class GoogleFeed extends AdFeed {
     }
 
     private void validateLength(String value, int maxLength) {
-//        if(value.length() > maxLength) {
-//            throw new IllegalArgumentException("String of value " + value + " longer than " + maxLength);
-//        }
+        if (value.length() > maxLength) {
+            throw new IllegalArgumentException("String of value " + value + " longer than " + maxLength);
+        }
     }
 
     private void validateAvailability(String value) {
-//        if (!value.equals("in stock") || !value.equals("out of stock") || !value.equals("preorder")) {
-//            throw new IllegalArgumentException("Value " + value + " not valid for availability field");
-//        }
+        if (!(value.equals("in stock") || value.equals("out of stock") || value.equals("preorder"))) {
+            throw new IllegalArgumentException("Value " + value + " not valid for availability field");
+        }
     }
 
     private void validatePrice(String value) {
-//        String currCode = value.substring(value.length() - 3, value.length() - 1);
-//        if(Currency.getInstance(currCode) == null) {
-//            throw new IllegalArgumentException("Invalid currency code " + currCode + " in price string " + value);
-//        }
+        String currCode = value.substring(value.length() - 3, value.length());
+        if (Currency.getInstance(currCode) == null) {
+            throw new IllegalArgumentException("Invalid currency code " + currCode + " in price string " + value);
+        }
     }
 }
