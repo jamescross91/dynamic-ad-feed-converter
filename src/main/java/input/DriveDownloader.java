@@ -70,6 +70,8 @@ public class DriveDownloader {
 
         List<File> files = result.getFiles();
 
+        System.out.println("Found " + files.size() + " files, will download the latest");
+
         File file = files
             .stream()
             .sorted((file1, file2) -> Long.compare(file1.getModifiedTime().getValue(), file2.getModifiedTime().getValue()))
@@ -77,10 +79,13 @@ public class DriveDownloader {
             .get();
 
         String outputPath = getTempFile();
+
+        System.out.println("Downloading file " + file.getId());
         OutputStream outputStream = new FileOutputStream(outputPath);
         driveService.files().get(file.getId())
             .executeMediaAndDownloadTo(outputStream);
 
+        System.out.println("Downloaded successfully to " + outputPath);
         return outputPath;
     }
 

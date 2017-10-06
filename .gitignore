@@ -26,3 +26,5 @@ sample-data.csv
 javatest.iml
 target/
 src/main/resources/client_secret.json
+src/main/resources/amc-google-config.json
+src/main/resources/amc-facebook-config.json

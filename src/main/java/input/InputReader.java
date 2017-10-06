@@ -20,11 +20,12 @@ public class InputReader {
     }
 
     public List<Map<String, String>> read() throws IOException {
+        System.out.println("Parsing input file at path " + filePath);
         Reader in = new FileReader(filePath);
         Iterable<CSVRecord> records = CSVFormat.EXCEL.withHeader().withIgnoreSurroundingSpaces().parse(in);
 
         return StreamSupport.stream(records.spliterator(), false)
-            .map(record -> record.toMap())
+            .map(CSVRecord::toMap)
             .collect(Collectors.toList());
     }
 

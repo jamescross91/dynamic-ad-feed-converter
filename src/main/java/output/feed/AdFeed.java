@@ -11,8 +11,10 @@ public abstract class AdFeed{
     String link;
     String image_link;
     String price;
+    String condition;
+    String brand;
 
-    public void fromData(Map<String, String> data) {
+    void fromData(Map<String, String> data) {
         String id = data.get("id");
         String title = data.get("title");
         String description = data.get("description");
@@ -20,11 +22,22 @@ public abstract class AdFeed{
         String image_link = data.get("image_link");
         String availability = data.get("availability");
         String price = data.get("price");
+        String condition = data.get("condition");
+        String brand = data.get("brand");
 
-        validateAndAssign(id, title, description, link, image_link, availability, price);
+        validateAndAssign(id, title, description, link, image_link, availability, price, condition, brand);
     }
 
-    private void validateAndAssign(String id, String title, String description, String link, String imageLink, String availability, String price) {
+    private void validateAndAssign(
+        String id,
+        String title,
+        String description,
+        String link,
+        String imageLink,
+        String availability,
+        String price,
+        String condition,
+        String brand) {
         validateLength(id, 50);
         this.id = id;
 
@@ -45,6 +58,11 @@ public abstract class AdFeed{
 
         validatePrice(price);
         this.price = price;
+
+        validateCondition(condition);
+        this.condition = condition;
+
+        this.brand = brand;
     }
 
     void validateLength(String value, int maxLength) {
@@ -63,6 +81,12 @@ public abstract class AdFeed{
         String currCode = value.substring(value.length() - 3, value.length());
         if (Currency.getInstance(currCode) == null) {
             throw new IllegalArgumentException("Invalid currency code " + currCode + " in price string " + value);
+        }
+    }
+
+    void validateCondition(String value) {
+        if (!(value.equals("new") || value.equals("refurbished") || value.equals("used"))) {
+            throw new IllegalArgumentException("Value " + value + " not valid for condition field");
         }
     }
 }
