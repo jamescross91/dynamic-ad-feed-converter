@@ -1,33 +1,31 @@
-package output;
-
-import output.feed.GoogleFeed;
+package output.map;
 
 import java.util.HashMap;
 import java.util.Map;
 
-public class GoogleMapper {
+public abstract class Mapper {
     //Source record field name and value pairs
-    private final Map<String, String> sourceRecord;
+    final Map<String, String> sourceRecord;
 
     //Key is the Google Feed field, value is the source record field
-    private final Map<String, String> mappings;
+    final Map<String, String> mappings;
 
-    public GoogleMapper(Map<String, String> sourceRecord, Map<String, String> mappings) {
+    public Mapper(Map<String, String> sourceRecord, Map<String, String> mappings) {
         this.sourceRecord = sourceRecord;
         this.mappings = mappings;
     }
 
-    public GoogleFeed getOutputRecord() {
+    Map<String, String> getDataRecord() {
         Map<String, String> data = new HashMap<>();
 
-        mappings.keySet().stream().forEach(googleField -> {
-            String sourceField = mappings.get(googleField);
+        mappings.keySet().stream().forEach(adFeed -> {
+            String sourceField = mappings.get(adFeed);
             String value = getValue(sourceField);
 
-            data.put(googleField, value);
+            data.put(adFeed, value);
         });
 
-        return new GoogleFeed(data);
+        return data;
     }
 
     String getValue(String field) {

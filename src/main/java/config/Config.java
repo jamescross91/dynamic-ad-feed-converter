@@ -11,6 +11,8 @@ import java.util.Map;
 
 @Data
 public class Config {
+    public static final String GOOGLE_FEED_TYPE = "GoogleFeed";
+    public static final String FACEBOOK_FEED_TYPE = "FacebookFeed";
 
     private final String sourceDir;
     private final String destDir;

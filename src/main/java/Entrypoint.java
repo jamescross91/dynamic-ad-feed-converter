@@ -1,9 +1,10 @@
 import config.Config;
 import input.DriveDownloader;
 import input.InputReader;
-import output.GoogleMapper;
-import output.feed.GoogleFeed;
+import output.feed.AdFeed;
 import output.io.FileWriter;
+import output.map.FacebookMapper;
+import output.map.GoogleMapper;
 
 import java.io.IOException;
 import java.util.List;
@@ -20,11 +21,24 @@ public class Entrypoint {
         InputReader inputReader = new InputReader(path);
         List<Map<String, String>> data = inputReader.read();
 
-        List<GoogleFeed> feedData = data.stream()
-            .map(record -> new GoogleMapper(record, config.getMappings()))
-            .map(GoogleMapper::getOutputRecord)
-            .collect(Collectors.toList());
+        FileWriter.writeCSV(config.getDestDir(), getAdFeedList(config, data));
+    }
 
-        FileWriter.writeCSV(config.getDestDir(), feedData);
+    private static List<AdFeed> getAdFeedList(Config config, List<Map<String, String>> data) {
+        if(config.getDestType().equals(Config.GOOGLE_FEED_TYPE)) {
+            return data.stream()
+                .map(record -> new GoogleMapper(record, config.getMappings()))
+                .map(GoogleMapper::getOutputRecord)
+                .collect(Collectors.toList());
+        }
+
+        if(config.getDestType().equals(Config.FACEBOOK_FEED_TYPE)) {
+            return data.stream()
+                .map(record -> new FacebookMapper(record, config.getMappings()))
+                .map(FacebookMapper::getOutputRecord)
+                .collect(Collectors.toList());
+        }
+
+        return null;
     }
 }
