@@ -1,4 +1,4 @@
-package output.io;
+package io;
 
 import com.fasterxml.jackson.annotation.JsonAutoDetect;
 import com.fasterxml.jackson.databind.ObjectWriter;

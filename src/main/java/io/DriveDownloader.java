@@ -1,4 +1,4 @@
-package input;
+package io;
 
 
 import com.google.api.client.auth.oauth2.Credential;
@@ -89,5 +89,8 @@ public class DriveDownloader {
         return outputPath;
     }
 
+    public void uploadFile(String credentialPath, String parentDirId) throws IOException {
+        Drive driveService = getDriveService(credentialPath);
+    }
 
 }
