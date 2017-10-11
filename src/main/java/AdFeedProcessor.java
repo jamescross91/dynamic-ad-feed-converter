@@ -1,11 +1,12 @@
 import config.Config;
-import io.DriveDownloader;
+import io.DriveHandler;
+import io.FileWriter;
 import io.InputReader;
 import output.feed.AdFeed;
-import io.FileWriter;
 import output.map.FacebookMapper;
 import output.map.GoogleMapper;
 
+import java.io.File;
 import java.io.IOException;
 import java.util.List;
 import java.util.Map;
@@ -30,13 +31,32 @@ public class AdFeedProcessor {
         if(config.getDestType().equals(Config.LOCAL_SOURCE_TYPE)) {
             System.out.println("Writing data to local directory " + config.getDestDir());
             FileWriter.writeCSV(config.getDestDir(), adFeedList);
+
+            return;
         }
 
         if(config.getDestType().equals(Config.GOOGLE_DRIVE_SOURCE_TYPE)) {
+            String path = writeTempFile(adFeedList);
             System.out.println("Writing data to Google Drive directory " + config.getDestDir());
+            new DriveHandler().uploadFile(
+                this.getClass()
+                    .getClassLoader()
+                    .getResource(config.getSecretFileName()).getFile(),
+                config.getDestDir(),
+                path
+            );
+
+            return;
         }
 
         throw new IllegalArgumentException("Invalid or unknown destination type " + config.getDestType());
+    }
+
+    private String writeTempFile(List<AdFeed> data) throws IOException {
+        File temp = File.createTempFile("temp-file-name", ".csv");
+        FileWriter.writeCSV(temp.getPath(), data);
+
+        return temp.getPath();
     }
 
     private String readSource() throws IOException {
@@ -47,7 +67,7 @@ public class AdFeedProcessor {
 
         if(config.getSourceType().equals(Config.GOOGLE_DRIVE_SOURCE_TYPE)) {
             System.out.println("Reading file from Google Drive");
-            return new DriveDownloader().downloadLatest(
+            return new DriveHandler().downloadLatest(
                 this.getClass()
                     .getClassLoader()
                     .getResource(config.getSecretFileName()).getFile(),

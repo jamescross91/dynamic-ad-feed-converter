@@ -25,17 +25,17 @@ public class Config {
 
     private final Map<String, String> mappings = new HashMap<>();
 
-    private Config(String jsonConfig) {
+    public Config(String jsonConfig) {
         JSONObject jsonObject = new JSONObject(jsonConfig);
 
-        sourceType = jsonObject.getString("SourceType");
-        destType = jsonObject.getString("DestType");
-        sourceDir = jsonObject.getString("SourceDir");
-        destDir = jsonObject.getString("OutputDir");
-        secretFileName = jsonObject.getString("SecretFileName");
-        outputFormat = jsonObject.getString("OutputFormat");
+        sourceType = jsonObject.getString("sourceType");
+        destType = jsonObject.getString("destType");
+        sourceDir = jsonObject.getString("sourceDir");
+        destDir = jsonObject.getString("destDir");
+        secretFileName = jsonObject.getString("secretFileName");
+        outputFormat = jsonObject.getString("outputFormat");
 
-        JSONObject mappingObj = jsonObject.getJSONObject("SourceToDestMappings");
+        JSONObject mappingObj = jsonObject.getJSONObject("mappings");
         mappingObj.toMap().keySet().stream().forEach(key -> mappings.put(key, mappingObj.getString(key)));
     }
 

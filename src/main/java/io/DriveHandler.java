@@ -4,6 +4,7 @@ package io;
 import com.google.api.client.auth.oauth2.Credential;
 import com.google.api.client.googleapis.auth.oauth2.GoogleCredential;
 import com.google.api.client.googleapis.javanet.GoogleNetHttpTransport;
+import com.google.api.client.http.FileContent;
 import com.google.api.client.http.HttpTransport;
 import com.google.api.client.json.JsonFactory;
 import com.google.api.client.json.jackson2.JacksonFactory;
@@ -16,9 +17,11 @@ import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
+import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 
-public class DriveDownloader {
+public class DriveHandler {
 
     /** Application name. */
     private static final String APPLICATION_NAME =
@@ -89,8 +92,18 @@ public class DriveDownloader {
         return outputPath;
     }
 
-    public void uploadFile(String credentialPath, String parentDirId) throws IOException {
+    public void uploadFile(String credentialPath, String parentDirId, String path) throws IOException {
+        System.out.println("Will upload file at path " + path + " to Google Drive parent directory ID " + parentDirId);
         Drive driveService = getDriveService(credentialPath);
+
+        File fileMeta = new File();
+        fileMeta.setName(LocalDateTime.now().toString());
+        ArrayList<String> parent = new ArrayList<>();
+        parent.add(parentDirId);
+        fileMeta.setParents(parent);
+        java.io.File filePath = new java.io.File(path);
+        FileContent fileContent = new FileContent("text/csv", filePath);
+        driveService.files().create(fileMeta, fileContent).setFields("id").execute();
     }
 
 }
