@@ -22,6 +22,7 @@ public class Config {
     private final String destDir;
     private final String secretFileName;
     private final String outputFormat;
+    private final String destFileName;
 
     private final Map<String, String> mappings = new HashMap<>();
 
@@ -34,6 +35,7 @@ public class Config {
         destDir = jsonObject.getString("destDir");
         secretFileName = jsonObject.getString("secretFileName");
         outputFormat = jsonObject.getString("outputFormat");
+        destFileName = jsonObject.getString("destFileName");
 
         JSONObject mappingObj = jsonObject.getJSONObject("mappings");
         mappingObj.toMap().keySet().stream().forEach(key -> mappings.put(key, mappingObj.getString(key)));

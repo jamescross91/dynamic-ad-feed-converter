@@ -17,9 +17,9 @@ import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
-import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 public class DriveHandler {
 
@@ -65,13 +65,7 @@ public class DriveHandler {
     public String downloadLatest(String credentialPath, String parentDirId) throws IOException {
         Drive driveService = getDriveService(credentialPath);
 
-        FileList result = driveService.files().list()
-            .setQ("'" + parentDirId + "' in parents")
-            .setPageSize(10)
-            .setFields("nextPageToken, files(id, name, modifiedTime)")
-            .execute();
-
-        List<File> files = result.getFiles();
+        List<File> files = getFiles(parentDirId, driveService);
 
         System.out.println("Found " + files.size() + " files, will download the latest");
 
@@ -92,18 +86,54 @@ public class DriveHandler {
         return outputPath;
     }
 
-    public void uploadFile(String credentialPath, String parentDirId, String path) throws IOException {
+    public void uploadFile(String credentialPath, String parentDirId, String destFileName, String path) throws IOException {
         System.out.println("Will upload file at path " + path + " to Google Drive parent directory ID " + parentDirId);
         Drive driveService = getDriveService(credentialPath);
 
+        List<File> files = getFiles(parentDirId, driveService);
+        List<File> filteredFiles = files.stream().filter(file -> file.getName().equals(destFileName)).collect(Collectors.toList());
+
+        if (filteredFiles.size() == 0) {
+            System.out.println("No files found matching name " + destFileName + " will create a new one");
+            createNewFile(parentDirId, path, destFileName, driveService);
+        } else {
+            System.out.println("Found file matching " + destFileName + " will update");
+            File toUpdate = filteredFiles.get(0);
+            updateFile(path, destFileName, toUpdate.getId(), driveService);
+        }
+    }
+
+    private void updateFile(String path, String fileName, String fileId, Drive driveService) throws IOException {
+        File file = new File();
+        file.setName(fileName);
+        java.io.File filePath = new java.io.File(path);
+        FileContent fileContent = new FileContent("text/csv", filePath);
+
+        System.out.println("Updating file " + fileName + " in Google Drive");
+        driveService.files().update(fileId, file, fileContent).execute();
+    }
+
+    private void createNewFile(String parentDirId, String path, String fileName, Drive driveService) throws IOException {
         File fileMeta = new File();
-        fileMeta.setName(LocalDateTime.now().toString());
+        fileMeta.setName(fileName);
         ArrayList<String> parent = new ArrayList<>();
         parent.add(parentDirId);
         fileMeta.setParents(parent);
+
         java.io.File filePath = new java.io.File(path);
         FileContent fileContent = new FileContent("text/csv", filePath);
+        System.out.println("Uploading new file to Google Drive with name " + fileName + " to parent directory " + parentDirId);
         driveService.files().create(fileMeta, fileContent).setFields("id").execute();
     }
 
+
+    private List<File> getFiles(String parentDirId, Drive driveService) throws IOException {
+        FileList result = driveService.files().list()
+            .setQ("'" + parentDirId + "' in parents")
+            .setPageSize(10)
+            .setFields("nextPageToken, files(id, name, modifiedTime)")
+            .execute();
+
+        return result.getFiles();
+    }
 }

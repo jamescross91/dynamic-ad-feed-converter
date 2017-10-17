@@ -8,6 +8,7 @@ import output.map.GoogleMapper;
 
 import java.io.File;
 import java.io.IOException;
+import java.nio.file.Paths;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
@@ -30,7 +31,7 @@ public class AdFeedProcessor {
     private void writeToDestination(List<AdFeed> adFeedList) throws IOException {
         if(config.getDestType().equals(Config.LOCAL_SOURCE_TYPE)) {
             System.out.println("Writing data to local directory " + config.getDestDir());
-            FileWriter.writeCSV(config.getDestDir(), adFeedList);
+            FileWriter.writeCSV(Paths.get(config.getDestDir(), config.getDestFileName()).toString(), adFeedList);
 
             return;
         }
@@ -43,6 +44,7 @@ public class AdFeedProcessor {
                     .getClassLoader()
                     .getResource(config.getSecretFileName()).getFile(),
                 config.getDestDir(),
+                config.getDestFileName(),
                 path
             );
 
