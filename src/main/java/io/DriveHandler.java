@@ -126,7 +126,6 @@ public class DriveHandler {
         driveService.files().create(fileMeta, fileContent).setFields("id").execute();
     }
 
-
     private List<File> getFiles(String parentDirId, Drive driveService) throws IOException {
         FileList result = driveService.files().list()
             .setQ("'" + parentDirId + "' in parents")
