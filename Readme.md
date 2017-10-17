@@ -5,25 +5,36 @@ A simple, config driven application to convert input CSV files into a form suita
 A [sample config file](/src/main/resources/sample-config.json) is included in the project.  The syntax is quite basic:
 ```
 {
-  "SourceDir": "/Users/James/Developer/dynamic-ad-feed-converter/sample-data.csv",
-  "DestDir": "/Users/James/Developer/dynamic-ad-feed-converter/out.csv",
-  "DestType": "GoogleFeed",
-  "SourceToDestMappings": {
+  "sourceType": "GoogleDrive",
+  "destType": "GoogleDrive",
+  "sourceDir": "0B31u0-bAMcrhM2pYQzZPZXloN28",
+  "destDir": "0B31u0-bAMcrhUGNVR2t2eFlEVzg",
+  "destFileName": "AMC-Google.csv",
+  "secretFileName": "client_secret.json",
+  "outputFormat": "GoogleFeed",
+  "mappings": {
     "id": "Source ID",
     "title": "Title",
-    "description": "Short Description",
+    "description": "Description",
     "link": "Trailer Url",
     "image_link": "Thumbnail",
     "availability": "%STATIC:in stock",
-    "google_product_category": "Media Type",
-    "price": "%STATIC:200 USD"
+    "google_product_category": "%STATIC:839",
+    "price": "%STATIC:4.99 USD",
+    "condition": "%STATIC:new",
+    "brand": "%STATIC:Shudder"
+
   }
 }
 ```
 
-* SourceDir - where does the input file come from
-* DestDir - where do we write the output
-* DestType - GoogleFeed or FacebookFeed
+* sourceType - Where does the input file come from - currently supports `Local` or `GoogleDrive`
+* destType - Where do we write the output - currently supports `Local` or `GoogleDrive`
+* sourceDir - Either a locally accessible path, or a Google Drive folder ID
+* destDir - Either a locally accessible path, or a Google drive folder ID
+* destFileName - The file name that gets written and updated
+* secretFileName - The path to your client_secret.json file - only required if interacting with GoogleDrive
+* outputFormat - FacebookFeed or GoogleFeed
 * SourceToDestMappings - The keys should be the output Google/Facebook field names, the values are their respective fields in the input file.  If you want to statically assign a value to all rows for a given field in the output, express it using `%STATIC:value` as shown.
 
 
