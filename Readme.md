@@ -36,7 +36,7 @@ A [sample config file](/src/main/resources/sample-config.json) is included in th
 * secretFileName - The path to your client_secret.json file - only required if interacting with GoogleDrive
 * outputFormat - FacebookFeed or GoogleFeed
 
-###Mappings
+### Mappings
 The keys should be the output Google/Facebook field names, the values are their respective fields in the input file.
 * If you want to statically assign a value to all rows for a given field in the output, express it using `%STATIC:value` as shown
 * You can also combine multiple fields using the `%COMBINER: ` syntax: `"brand": "%COMBINER:Trailer Url, Thumbnail, Title"`.  This will append multiple fields together delimeted by a space.
