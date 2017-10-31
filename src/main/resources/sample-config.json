@@ -1,15 +1,23 @@
 {
   "SourceDir": "0B31u0-bAMcrhM2pYQzZPZXloN28",
-  "DestDir": "/Users/James/Developer/dynamic-ad-feed-converter/out.csv",
-  "DestType": "GoogleFeed",
-  "SourceToDestMappings": {
+  "sourceType": "GoogleDrive",
+  "destType": "Local",
+  "sourceDir": "0B31u0-bAMcrhM2pYQzZPZXloN28",
+  "destDir": "/Users/James/Developer/dynamic-ad-feed-converter",
+  "destFileName": "AMC-Google.csv",
+  "secretFileName": "client_secret.json",
+  "outputFormat": "GoogleFeed",
+  "mappings": {
     "id": "Source ID",
     "title": "Title",
-    "description": "Short Description",
+    "description": "Description",
     "link": "Trailer Url",
     "image_link": "Thumbnail",
     "availability": "%STATIC:in stock",
-    "google_product_category": "Media Type",
-    "price": "%STATIC:200 USD"
+    "google_product_category": "%STATIC:839",
+    "price": "%STATIC:4.99 USD",
+    "condition": "%STATIC:new",
+    "brand": "%COMBINER:Trailer Url, Thumbnail, Title"
+
   }
 }
