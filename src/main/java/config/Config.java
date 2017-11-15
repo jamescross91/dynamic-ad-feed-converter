@@ -13,8 +13,13 @@ import java.util.Map;
 public class Config {
     public static final String GOOGLE_FEED_FORMAT = "GoogleFeed";
     public static final String FACEBOOK_FEED_FORMAT = "FacebookFeed";
+
     public static final String LOCAL_SOURCE_TYPE = "Local";
     public static final String GOOGLE_DRIVE_SOURCE_TYPE = "GoogleDrive";
+    public static final String URL_SOURCE_TYPE = "URL";
+
+    public static final String CSV_FILE_TYPE = "CSV";
+    public static final String XML_FILE_TYPE = "XML";
 
     private final String sourceType;
     private final String destType;
@@ -23,6 +28,7 @@ public class Config {
     private final String secretFileName;
     private final String outputFormat;
     private final String destFileName;
+    private final String fileType;
 
     private final Map<String, String> mappings = new HashMap<>();
 
@@ -36,6 +42,7 @@ public class Config {
         secretFileName = jsonObject.getString("secretFileName");
         outputFormat = jsonObject.getString("outputFormat");
         destFileName = jsonObject.getString("destFileName");
+        fileType = jsonObject.getString("fileType");
 
         JSONObject mappingObj = jsonObject.getJSONObject("mappings");
         mappingObj.toMap().keySet().stream().forEach(key -> mappings.put(key, mappingObj.getString(key)));

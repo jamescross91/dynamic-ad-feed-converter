@@ -2,6 +2,7 @@ import config.Config;
 import io.DriveHandler;
 import io.FileWriter;
 import io.InputReader;
+import io.UrlHandler;
 import output.feed.AdFeed;
 import output.map.FacebookMapper;
 import output.map.GoogleMapper;
@@ -22,7 +23,7 @@ public class AdFeedProcessor {
 
     public void process() throws IOException {
         String localPath = readSource();
-        InputReader inputReader = new InputReader(localPath);
+        InputReader inputReader = new InputReader(localPath, config);
         List<Map<String, String>> data = inputReader.read();
         List<AdFeed> adFeedList = getAdFeedList(data);
         writeToDestination(adFeedList);
@@ -74,6 +75,11 @@ public class AdFeedProcessor {
                     .getClassLoader()
                     .getResource(config.getSecretFileName()).getFile(),
                 config.getSourceDir());
+        }
+
+        if (config.getSourceType().equals(Config.URL_SOURCE_TYPE)) {
+            System.out.println("Downloading file from the web");
+            return UrlHandler.download(config.getSourceDir());
         }
 
         throw new IllegalArgumentException("Invalid or unknown source type " + config.getSourceType());

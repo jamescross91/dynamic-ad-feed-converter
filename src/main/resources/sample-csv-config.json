@@ -1,6 +1,7 @@
 {
   "SourceDir": "0B31u0-bAMcrhM2pYQzZPZXloN28",
   "sourceType": "GoogleDrive",
+  "fileType": "CSV",
   "destType": "Local",
   "sourceDir": "0B31u0-bAMcrhM2pYQzZPZXloN28",
   "destDir": "/Users/James/Developer/dynamic-ad-feed-converter",
