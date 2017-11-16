@@ -32,6 +32,8 @@ public class Config {
 
     private final Map<String, String> mappings = new HashMap<>();
 
+    private Map<String, String> xPathQueries = new HashMap<>();
+
     public Config(String jsonConfig) {
         JSONObject jsonObject = new JSONObject(jsonConfig);
 
@@ -44,6 +46,16 @@ public class Config {
         destFileName = jsonObject.getString("destFileName");
         fileType = jsonObject.getString("fileType");
 
+        setMappings(jsonObject);
+        setXpathQueries(jsonObject);
+    }
+
+    private void setXpathQueries(JSONObject jsonObject) {
+        JSONObject queryObj = jsonObject.getJSONObject("xPathQueries");
+        queryObj.toMap().keySet().stream().forEach(key -> xPathQueries.put(key, queryObj.getString(key)));
+    }
+
+    private void setMappings(JSONObject jsonObject) {
         JSONObject mappingObj = jsonObject.getJSONObject("mappings");
         mappingObj.toMap().keySet().stream().forEach(key -> mappings.put(key, mappingObj.getString(key)));
     }

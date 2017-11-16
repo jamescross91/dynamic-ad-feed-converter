@@ -3,10 +3,13 @@ import io.DriveHandler;
 import io.FileWriter;
 import io.InputReader;
 import io.UrlHandler;
+import org.xml.sax.SAXException;
 import output.feed.AdFeed;
 import output.map.FacebookMapper;
 import output.map.GoogleMapper;
 
+import javax.xml.parsers.ParserConfigurationException;
+import javax.xml.xpath.XPathExpressionException;
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Paths;
@@ -21,7 +24,7 @@ public class AdFeedProcessor {
         this.config = config;
     }
 
-    public void process() throws IOException {
+    public void process() throws IOException, ParserConfigurationException, XPathExpressionException, SAXException {
         String localPath = readSource();
         InputReader inputReader = new InputReader(localPath, config);
         List<Map<String, String>> data = inputReader.read();

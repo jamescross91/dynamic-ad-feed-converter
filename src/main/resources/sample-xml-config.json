@@ -1,0 +1,30 @@
+{
+  "SourceDir": "0B31u0-bAMcrhM2pYQzZPZXloN28",
+  "sourceType": "URL",
+  "fileType": "XML",
+  "destType": "Local",
+  "sourceDir": "https://site.skychnl.net/channels/A7TIV9SL/apple_universal_search_catalog_feed.xml",
+  "destDir": "/Users/James/Developer/dynamic-ad-feed-converter",
+  "destFileName": "AMC-Google.csv",
+  "secretFileName": "client_secret.json",
+  "outputFormat": "GoogleFeed",
+  "mappings": {
+    "id": "contentId",
+    "title": "Title",
+    "description": "Description",
+    "link": "Trailer Url",
+    "image_link": "Thumbnail",
+    "availability": "%STATIC:in stock",
+    "google_product_category": "%STATIC:839",
+    "price": "%STATIC:4.99 USD",
+    "condition": "%STATIC:new",
+    "brand": "%COMBINER:Trailer Url, Thumbnail, Title"
+  },
+  "xPathQueries" : {
+    "contentId": "/umcCatalog[@version=\"1.1\"]/channel/item/contentId",
+    "pubDate": "/umcCatalog[@version=\"1.1\"]/channel/item/pubDate",
+    "title": "/umcCatalog[@version=\"1.1\"]/channel/item/title",
+    "description": "/umcCatalog[@version=\"1.1\"]/channel/item/description",
+    "image": "/umcCatalog[@version=\"1.1\"]/channel/item/artwork/@url"
+  }
+}
