@@ -11,7 +11,7 @@ public class GoogleFeed extends AdFeed {
 
     public GoogleFeed(Map<String, String> data) {
         fromData(data);
-        this.google_product_category = data.get("google_product_category");
+        this.google_product_category = data.containsKey("google_product_category") ? data.get("google_product_category") : "";
     }
 
 

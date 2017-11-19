@@ -15,15 +15,15 @@ public abstract class AdFeed{
     String brand;
 
     void fromData(Map<String, String> data) {
-        String id = data.get("id");
-        String title = data.get("title");
-        String description = data.get("description");
-        String link = data.get("link");
-        String image_link = data.get("image_link");
-        String availability = data.get("availability");
-        String price = data.get("price");
-        String condition = data.get("condition");
-        String brand = data.get("brand");
+        String id = data.containsKey("id") ? data.get("id") : "";
+        String title = data.containsKey("title") ? data.get("title") : "";
+        String description = data.containsKey("description") ? data.get("description") : "";
+        String link = data.containsKey("link") ? data.get("link") : "";
+        String image_link = data.containsKey("image_link") ? data.get("image_link") : "";
+        String availability = data.containsKey("availability") ? data.get("availability") : "";
+        String price = data.containsKey("price") ? data.get("price") : "";
+        String condition = data.containsKey("condition") ? data.get("condition") : "";
+        String brand = data.containsKey("brand") ? data.get("brand") : "";
 
         validateAndAssign(id, title, description, link, image_link, availability, price, condition, brand);
     }
