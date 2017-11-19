@@ -6,6 +6,7 @@ A [sample config file](/src/main/resources/sample-config.json) is included in th
 ```
 {
   "sourceType": "GoogleDrive",
+  "fileType": "CSV",
   "destType": "GoogleDrive",
   "sourceDir": "0B31u0-bAMcrhM2pYQzZPZXloN28",
   "destDir": "0B31u0-bAMcrhUGNVR2t2eFlEVzg",
@@ -44,3 +45,66 @@ The keys should be the output Google/Facebook field names, the values are their 
 
 ## Execution
 * There is a simple main method [included](/src/main/java/Entrypoint.java) in the project, along with an AWS Lambda Handler.
+
+## XML Feeds
+
+XML feeds can also be parsed - set fileType to XML:
+```
+{
+  "SourceDir": "0B31u0-bAMcrhM2pYQzZPZXloN28",
+  "sourceType": "URL",
+  "fileType": "XML",
+  "destType": "Local",
+  "sourceDir": "https://www.internet.com/my-feedxml",
+  "destDir": "/Users/James/Developer/dynamic-ad-feed-converter",
+  "destFileName": "AMC-Google.csv",
+  "secretFileName": "client_secret.json",
+  "outputFormat": "GoogleFeed",
+  "mappings": {
+    "id": "contentId",
+    "title": "title",
+    "description": "description",
+    "link": "image",
+    "image_link": "image",
+    "availability": "%STATIC:in stock",
+    "google_product_category": "%STATIC:839",
+    "price": "%STATIC:4.99 USD",
+    "condition": "%STATIC:new",
+    "brand": "%STATIC:shudder"
+  },
+  "xPathRoot": "/umcCatalog[@version=\"1.1\"]/channel/item",
+  "xPathQueries" : {
+    "contentId": "contentId",
+    "pubDate": "pubDate",
+    "title": "title",
+    "description": "description",
+    "image": "artwork/@url"
+  }
+}
+```
+
+Where:
+* xPathRoot is the root element in the list of items to be processed - see example below
+* xPathQueries query specific elements underneath the root element
+
+The example config can be used to query elements in the sample data below, where `item` is the root element, and the queries in`xPathQueries` are used to extract data from an items child nodes or attributes.
+
+### Sample XML Data
+```
+<umcCatalog version="1.1">
+<teamId>72GP743PB7</teamId>
+<channel>
+<lastBuildDate>2017-11-19T00:37:36+00:00</lastBuildDate>
+<catalogId>com.sundancenow.shudder.catalog</catalogId>
+<item>
+<contentType>tv_episode</contentType>
+<contentId>3046099</contentId>
+<pubDate>2017-10-24T14:48:21+00:00</pubDate>
+<title>2. Hope</title>
+...
+<item>
+<contentType>tv_episode</contentType>
+<contentId>123456</contentId>
+<pubDate>2017-12-24T14:48:21+00:00</pubDate>
+<title>Another title</title>
+```
